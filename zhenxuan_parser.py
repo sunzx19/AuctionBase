@@ -2,11 +2,8 @@
 """
 FILE: skeleton_parser.py
 ------------------
-Author: Firas Abuzaid (fabuzaid@stanford.edu)
-Author: Perth Charernwattanagul (puch@stanford.edu)
-Modified: 04/21/2014
 
-Skeleton parser for CS145 programming project 1. Has useful imports and
+Skeleton parser for CS145 programming project . Has useful imports and
 functions for parsing, including:
 
 1) Directory handling -- the parser takes a list of eBay json files
