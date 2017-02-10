@@ -1,0 +1,65 @@
+• Constraints for Users
+
+1. No two users can share the same User ID.
+Use a PRIMARY KEY UserID in the table User.
+
+2. All sellers and bidders must already exist as users.
+Use a FOREIGN　KEY UserID references User in the table Bid (not deferrable).
+Use a FOREIGN KEY SellerID references User in the table Item (not deferrable).
+
+• Constraints for Items
+
+3. No two items can share the same Item ID.
+Use a PRIMARY KEY ItemID in the table Item.
+
+4. Every bid must correspond to an actual item.
+Use a FOREIGN　KEY ItemID references Item in the table Bid (not deferrable).
+
+5. The items for a given category must all exist.
+Use a FOREIGN　KEY ItemID references Item in the table Category (not deferrable).
+
+6. An item cannot belong to a particular category more than once.
+Use a PRIMARY KEY(ItemID,Category) in the table category.
+
+7. The end time for an auction must always be after its start time.
+Add a constraint check(Ends>Started) in the table Item.
+
+8. The Current Price of an item must always match the Amount of the most recent bid for that item.
+Add a Trigger: after inserting a new bid, update the "Currently" attribute in the table Item.
+Corresponding file: trigger1_add.sql  trigger1_drop.sql
+
+• Constraints for Bidding
+
+9. A user may not bid on an item he or she is also selling.
+Add a trigger: before inserting a new bid, check whether the userID is the same as the sellerID of that item.
+Corresponding file: trigger2_add.sql trigger2_drop.sql
+
+10. No auction may have two bids at the exact same time.
+Add a constraint: UNIQUE(ItemID, Time) in the table Bid.
+
+11. No auction may have a bid before its start time or after its end time.
+Add a trigger: before inserting a new bid, check whether the Time is in the range.
+Corresponding file: trigger3_add.sql  trigger3_drop.sql
+
+12. No user can make a bid of the same amount to the same item more than once.
+Add a constraint: UNIQUE(UserID, Amount) in the table Bid.
+
+13. In every auction, the Number of Bids attribute corresponds to the actual number of bids for that particular
+item.
+Add a trigger: after inserting a new bid, update the "Number_of_bids" attribute in the table Item.
+Corresponding file: trigger4_add.sql  trigger4_drop.sql
+
+14. Any new bid for a particular item must have a higher amount than any of the previous bids for that particular
+item.
+Add a trigger: before inserting a new bid, check whether the Amount is higher than max(Amount) of that item.
+Corresponding file: trigger5_add.sql  trigger5_drop.sql
+
+• Constraints for Time
+
+15. All new bids must be placed at the time which matches the current time of your AuctionBase system.
+Add a trigger: before inserting a new bid, check whether the Time in Bid is equal to the Curr_Time in CurrentTime.
+Corresponding file: trigger6_add.sql  trigger6_drop.sql
+
+16. The current time of your AuctionBase system can only advance forward in time, not backward in time.
+Add a trigger: before updating the Curr_Time, check whether the new time is larger than the old time.
+Corresponding file: trigger7_add.sql  trigger7_drop.sql

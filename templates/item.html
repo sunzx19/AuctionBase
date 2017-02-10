@@ -1,0 +1,55 @@
+{% extends "app_base.html" %}
+{% block content %}
+<h3> Item </h3> 
+
+<form method="POST" action="item" role="form" style="max-width:400px; width:100%">
+    <div class="alert alert-info">Input the item ID to see information</div>
+    <div class="form-group">
+      <label for="itemID">Item ID</label>
+      <input type="text" class="form-control" id="itemID" name="itemID" />
+    </div>
+    <div><input type="submit" value="Get info" class="btn btn-primary" /></div>
+</form>
+
+<h3>Result</h3>
+
+{% if result %}
+<h3>{{result['Name']}}</h3>
+
+<h4>Status&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ status }}</h4>
+{% if (status == 'close' or status == 'notStarted') and bid != [] %}
+<h4>Winner&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ bid[0]['UserID'] }}</h4>
+{% endif %}
+
+{% if category is defined %}
+<div>Categories&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+{% for cate in category %}
+{{ cate['Category'] }} ,
+{% endfor %}</div>
+{% endif %}
+
+
+<div>Started&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ result['Started'] }}</div>
+<div>Ends&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ result['Ends'] }}</div>
+<div>First Bid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ result['First_Bid'] }}</div>
+<div>Buy Price&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ result['Buy_Price'] }}</div>
+<div>Seller&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ result['SellerID'] }}</div>
+<div>Current Price&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ result['Currently'] }}</div>
+<div>Description&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ result['Description'] }}</div>
+{% endif %}
+
+
+{% if bid  %}
+<h4>Bid List</h4>
+
+{% for each_bid in bid %}
+  
+  <div> UserID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ each_bid['UserID'] }}</div>
+  <div> Time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ each_bid['Time'] }}</div> 
+  <div> Bid amount&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ each_bid['Amount'] }}</div>
+  <div>--------</div>
+{% endfor %}
+{% endif %}
+
+
+{% endblock %}
